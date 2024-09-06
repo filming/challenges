@@ -39,6 +39,29 @@ class Solution:
 
         return groups.values()
 
+    # Solution 2: Time complexity of O(n*k), Space complexity of O(n*k)
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        # Try and sort using bucket sorting improve TC (26 lists, 1 for each char of the alphabet)
+        groups = {}
+
+        for curr_str in strs:
+            # Create a char occurrence list of the current string using buckets
+            curr_str_char_occurrences = [0 for _ in range(26)]
+
+            for curr_char in curr_str:
+                curr_str_char_occurrences[97 - ord(curr_char)] += 1
+
+            # Convert char occurrence into a hashable obj like a tuple
+            curr_str_char_occurrences_tuple = tuple(curr_str_char_occurrences)
+
+            # Update group with current string
+            if curr_str_char_occurrences_tuple in groups:
+                groups[curr_str_char_occurrences_tuple].append(curr_str)
+            else:
+                groups[curr_str_char_occurrences_tuple] = [curr_str]
+
+        return groups.values()
+
 
 def main():
     solution = Solution()
