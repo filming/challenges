@@ -36,6 +36,36 @@ class Solution:
 
         return result
 
+    # Solution 2: Time complexity of O(n), Space complexity of O(n)
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        result = []
+
+        # Create an int occurrence dict based on nums
+        nums_int_occurrences = {}
+
+        for curr_num in nums:
+            if curr_num in nums_int_occurrences:
+                nums_int_occurrences[curr_num] += 1
+            else:
+                nums_int_occurrences[curr_num] = 1
+
+        # Sort the int occurrence dict using bucket sorting
+        buckets = [[] for _ in range(len(nums))]
+
+        for num, occ in nums_int_occurrences.items():
+            buckets[occ - 1].append(num)
+
+        # Store the first K ints based on our sorted list of lists
+        for i in range(len(buckets) - 1, -1, -1):
+            if buckets[i]:
+                for j in range(len(buckets[i])):
+                    if len(result) == k:
+                        return result
+
+                    result.append(buckets[i][j])
+
+        return result
+
 
 def main():
     solution = Solution()
