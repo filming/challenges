@@ -32,6 +32,24 @@ class Solution:
 
         return product
 
+    # Solution 2: Time complexity of O(n), Space complexity of O(1)
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        product = [1 for i in range(len(nums))]
+
+        # Calculate the products going from left to right
+        for i in range(1, len(nums)):
+            product[i] = nums[i - 1] * product[i - 1]
+
+        # Calculate the products going from right to left
+        curr_product_right = 1
+
+        for i in range(len(nums) - 2, -1, -1):
+            curr_product_right *= nums[i + 1]
+
+            product[i] *= curr_product_right
+
+        return product
+
 
 def main():
     solution = Solution()
